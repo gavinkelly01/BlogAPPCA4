@@ -1,37 +1,28 @@
 <?php
 session_start();
 include '../includes/db.php';
-include '../includes/functions.php';
-if (!isset($_SESSION['user_id'])) {
+
+if (!isset($_SESSION['user_id']) || !isset($_GET['id'])) {
     header("Location: login.php");
     exit;
 }
 
-if (isset($_GET['id'])) {
-    $post_id = $_GET['id'];
-    $user_id = $_SESSION['user_id'];
+$post_id = $_GET['id'];
+$user_id = $_SESSION['user_id'];
+$db = getDB();
+$stmt = $db->prepare("SELECT * FROM posts WHERE id = :id AND user_id = :user_id");
+$stmt->execute([':id' => $post_id, ':user_id' => $user_id]);
+$post = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $db = getDB();
-    $stmt = $db->prepare("SELECT * FROM posts WHERE id = :id AND user_id = :user_id");
-    $stmt->execute([':id' => $post_id, ':user_id' => $user_id]);
-    $post = $stmt->fetch(PDO::FETCH_ASSOC);
+if (!$post) {
+    echo "Post not found.";
+    exit;
+}
 
-    if (!$post) {
-        echo "Post not found or you don't have permission to edit this post.";
-        exit;
-    }
-
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $title = $_POST['title'];
-        $content = $_POST['content'];
-        $stmt = $db->prepare("UPDATE posts SET title = :title, content = :content WHERE id = :id AND user_id = :user_id");
-        $stmt->execute([':title' => $title, ':content' => $content, ':id' => $post_id, ':user_id' => $user_id]);
-
-        header("Location: user_dashboard.php");
-        exit;
-    }
-} else {
-    echo "Post ID not found.";
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $stmt = $db->prepare("UPDATE posts SET title = :title, content = :content WHERE id = :id AND user_id = :user_id");
+    $stmt->execute([':title' => $_POST['title'], ':content' => $_POST['content'], ':id' => $post_id, ':user_id' => $user_id]);
+    header("Location: user_dashboard.php");
     exit;
 }
 ?>
