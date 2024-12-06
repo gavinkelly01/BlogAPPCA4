@@ -1,6 +1,6 @@
 <?php
 session_set_cookie_params([
-        'samesite' => 'Strict' ,
+    'samesite' => 'Strict' ,
     'secure' => true,
     'httponly' => true
 
@@ -203,9 +203,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
         <form method="POST">
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            <input type="text" id="username" name="username" placeholder="Enter your username" >
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <input type="password" id="password" name="password" placeholder="Enter your password" >
             <button type="submit">Login</button>
         </form>
         <p style="margin-top: 15px;">Don't have an account? <a href="register.php">Register here</a>.</p>
