@@ -1,9 +1,9 @@
 <?php
 session_start();
-include '../includes/db.php';
-include '../includes/header.php';
-include '../includes/functions.php';
 
+include '../includes/db.php';
+include '../includes/functions.php';
+include '../includes/header.php';
 $posts = getPosts();
 
 if ($posts) {
@@ -12,7 +12,6 @@ if ($posts) {
         echo "<p>" . nl2br(htmlspecialchars($post['content'])) . "</p>";
         $username = isset($post['username']) ? htmlspecialchars($post['username']) : 'Anonymous';
         echo "<small>By " . $username . "</small><br>";
-
         if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $post['user_id']) {
             echo "<a href='edit_post.php?id=" . $post['id'] . "'>Edit</a><br>";
         }
@@ -21,5 +20,5 @@ if ($posts) {
     echo "<p>No posts found.</p>";
 }
 
-include '../includes/footer.php';
+include_once '../includes/footer.php';
 ?>
