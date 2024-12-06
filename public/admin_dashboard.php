@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../includes/db.php';
-
+include '../includes/functions.php';
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'ADMIN') {
     header("Location: index.php");
     exit;
