@@ -35,3 +35,4 @@ $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <p>You have no posts yet.</p>
 
 <?php endif; ?>
+
