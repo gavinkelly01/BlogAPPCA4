@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../includes/db.php';
-
+include '../includes/functions.php';
 if (!isset($_SESSION['user_id']) || !isset($_GET['id'])) {
     header("Location: login.php");
     exit;
@@ -36,4 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <textarea name="content" required><?php echo $post['content']; ?></textarea><br>
     <button type="submit">Update Post</button>
 </form>
+
+
 
