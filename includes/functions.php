@@ -1,9 +1,12 @@
 <?php
-function isLoggedIn() {
-    return isset($_SESSION['user_id']);
+if (!function_exists('isLoggedIn')) {
+    function isLoggedIn() {
+        return isset($_SESSION['user_id']);
+    }
 }
-
-function getPosts() {
+if (!function_exists('getPosts')) {
+function getPosts()
+{
     try {
         $db = getDB();
         $stmt = $db->prepare("SELECT posts.*, users.username FROM posts LEFT JOIN users ON posts.user_id = users.id ORDER BY created_at DESC");
@@ -14,6 +17,7 @@ function getPosts() {
         error_log("Database error: " . $e->getMessage());
         return [];
     }
+}
 }
 
 function getPostById($postId) {
