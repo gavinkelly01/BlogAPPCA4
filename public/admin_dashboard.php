@@ -1,8 +1,8 @@
 <?php
 session_start();
 include '../includes/db.php';
-include '../includes/functions.php';
-if (!isLoggedIn() || $_SESSION['role'] !== 'ADMIN') {
+
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'ADMIN') {
     header("Location: index.php");
     exit;
 }
@@ -11,12 +11,10 @@ $db = getDB();
 
 if (isset($_GET['id'])) {
     $postId = $_GET['id'];
-    $stmt = $db->prepare("DELETE FROM posts WHERE id = :id");
-    $stmt->execute([':id' => $postId]);
+    $db->exec("DELETE FROM posts WHERE id = '$postId'");
     header("Location: admin_dashboard.php");
     exit;
 }
-
 ?>
 
 <h1>Admin Dashboard</h1>
